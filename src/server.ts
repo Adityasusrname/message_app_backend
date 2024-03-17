@@ -1,11 +1,12 @@
 import express from 'express'
 import { DataSource } from 'typeorm'
-import { User } from './entities/User'
+import { User } from './entities/user'
+import { usersRoute } from './routes/users'
 
 
 const app = express()
 
-const psqlDataSource = new DataSource({
+export const psqlDataSource = new DataSource({
 
 
     type:'postgres',
@@ -20,6 +21,10 @@ const psqlDataSource = new DataSource({
     
 
 })
+
+app.use(express.json())
+
+app.use('/users',usersRoute)
 
 app.get('/',(req,res)=>{
     res.send('Hello World!')
