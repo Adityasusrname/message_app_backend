@@ -17,6 +17,8 @@ export class User{
   @Column({nullable:true})
   Image?:string
 
+  Token?:string
+
   constructor(Username:string,Password:string){
     this.Username=Username
     this.Password=Password

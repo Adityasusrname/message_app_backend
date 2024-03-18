@@ -2,6 +2,7 @@ import { getRepository } from "typeorm"
 import { User } from "../entities/user"
 import { psqlDataSource } from "../server"
 import { hashPassword } from "../util/password"
+import { generateToken } from "../util/jwt"
 
 
 interface signupUser{
@@ -31,6 +32,7 @@ export async function createUser(data:signupUser):Promise<User>{
         const hashedPassword = await hashPassword(data.Password)
         const user =    new User(data.Username,hashedPassword)
         const newUser = await repo.save(user)
+        newUser.Token = await generateToken(newUser.Username,newUser.Password) //Attaching token to 'newUser' object
         return newUser
     }
     catch(e){
